@@ -41,6 +41,7 @@ describe("formatList", () => {
     expect(text).toContain("Found 1 courses:");
     expect(text).toContain('"id": 1');
     expect(text).toContain('"name": "Introduction to TypeScript"');
+    expect(text).toContain(".last-response.json");
   });
 
   it("formats multiple records", () => {
@@ -50,6 +51,7 @@ describe("formatList", () => {
     expect(text).toContain("Found 2 courses:");
     expect(text).toContain('"id": 1');
     expect(text).toContain('"id": 2');
+    expect(text).toContain(".last-response.json");
   });
 });
 
@@ -62,6 +64,7 @@ describe("formatShow", () => {
     expect(text).toContain("course:");
     expect(text).toContain('"id": 1');
     expect(text).toContain('"name": "Introduction to TypeScript"');
+    expect(text).toContain(".last-response.json");
     expect(result.isError).toBeUndefined();
   });
 });
@@ -73,6 +76,7 @@ describe("formatCreate", () => {
     const text = (result.content[0] as { type: "text"; text: string }).text;
     expect(text).toContain("Successfully created course:");
     expect(text).toContain('"id": 1');
+    expect(text).toContain(".last-response.json");
     expect(result.isError).toBeUndefined();
   });
 });
@@ -85,6 +89,7 @@ describe("formatUpdate", () => {
     const text = (result.content[0] as { type: "text"; text: string }).text;
     expect(text).toContain("Successfully updated course:");
     expect(text).toContain('"name": "Updated Course"');
+    expect(text).toContain(".last-response.json");
     expect(result.isError).toBeUndefined();
   });
 });
@@ -96,6 +101,7 @@ describe("formatDelete", () => {
     const text = (result.content[0] as { type: "text"; text: string }).text;
     expect(text).toContain("Successfully deleted course:");
     expect(text).toContain('"id": 1');
+    expect(text).toContain(".last-response.json");
     expect(result.isError).toBeUndefined();
   });
 });

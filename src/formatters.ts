@@ -5,6 +5,8 @@ import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
  */
 export type EduframeRecord = Record<string, unknown>;
 
+const RESPONSE_LOG_HINT = "\n\n*Full JSON response saved to `.mcp-servers/eduframe/.last-response.json`*";
+
 /**
  * Format a resource record as a human-readable string.
  */
@@ -35,7 +37,7 @@ export function formatList(records: EduframeRecord[], resourceName: string): Cal
     content: [
       {
         type: "text",
-        text: `Found ${records.length} ${resourceName}:\n\n${formatted}`,
+        text: `Found ${records.length} ${resourceName}:\n\n${formatted}${RESPONSE_LOG_HINT}`,
       },
     ],
   };
@@ -52,7 +54,7 @@ export function formatShow(record: EduframeRecord, resourceName: string): CallTo
     content: [
       {
         type: "text",
-        text: `${resourceName}:\n\n${formatRecord(record)}`,
+        text: `${resourceName}:\n\n${formatRecord(record)}${RESPONSE_LOG_HINT}`,
       },
     ],
   };
@@ -69,7 +71,7 @@ export function formatCreate(record: EduframeRecord, resourceName: string): Call
     content: [
       {
         type: "text",
-        text: `Successfully created ${resourceName}:\n\n${formatRecord(record)}`,
+        text: `Successfully created ${resourceName}:\n\n${formatRecord(record)}${RESPONSE_LOG_HINT}`,
       },
     ],
   };
@@ -86,7 +88,7 @@ export function formatUpdate(record: EduframeRecord, resourceName: string): Call
     content: [
       {
         type: "text",
-        text: `Successfully updated ${resourceName}:\n\n${formatRecord(record)}`,
+        text: `Successfully updated ${resourceName}:\n\n${formatRecord(record)}${RESPONSE_LOG_HINT}`,
       },
     ],
   };
@@ -103,7 +105,7 @@ export function formatDelete(record: EduframeRecord, resourceName: string): Call
     content: [
       {
         type: "text",
-        text: `Successfully deleted ${resourceName}:\n\n${formatRecord(record)}`,
+        text: `Successfully deleted ${resourceName}:\n\n${formatRecord(record)}${RESPONSE_LOG_HINT}`,
       },
     ],
   };

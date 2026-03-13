@@ -83,3 +83,18 @@ The server requires one environment variable:
 | `create_lead` | Create a new lead. Accepts `title`, `first_name`, `middle_name`, `last_name`, `email`, `phone`, `company_name`, `status`, `quality`, `value`, `wants_newsletter`, `comment`, `administrator_id`, `account_id`, `user_id`, `label_ids`, `lead_products`, and `address_attributes`. |
 | `update_lead` | Update the status of an existing lead. Requires `id` and `status`. |
 | `delete_lead` | Delete a lead by ID. |
+
+## Debugging
+
+When running the server locally, each successful tool call writes the raw API response to `.last-response.json` in the project root. This file can be inspected to see the complete JSON payload returned by the Eduframe API, independent of the formatted text output sent back to the MCP client.
+
+The file is overwritten on every tool call and contains the tool name, the request parameters, and the full response:
+
+```json
+{
+  "timestamp": "2024-01-01T00:00:00.000Z",
+  "tool": "get_lead",
+  "request": { "id": 1 },
+  "response": { "id": 1, "email": "lead@example.com", ... }
+}
+```
