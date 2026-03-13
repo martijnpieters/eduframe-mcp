@@ -12,6 +12,9 @@
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
+    "lint": "oxlint src",
+    "fmt": "oxfmt src",
+    "fmt:check": "oxfmt --check src",
     "release": "changeset publish"
   },
   "dependencies": {
@@ -21,6 +24,8 @@
   "devDependencies": {
     "@changesets/cli": "^2.30.0",
     "@types/node": "^24.0.0",
+    "oxfmt": "^0.40.0",
+    "oxlint": "^1.55.0",
     "typescript": "^5.9.3",
     "vitest": "^4.1.0"
   },

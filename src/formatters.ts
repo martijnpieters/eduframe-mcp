@@ -18,10 +18,7 @@ function formatRecord(record: EduframeRecord): string {
  * @param records - Array of resource records returned by the API.
  * @param resourceName - Human-readable name of the resource type (e.g. "courses").
  */
-export function formatList(
-  records: EduframeRecord[],
-  resourceName: string,
-): CallToolResult {
+export function formatList(records: EduframeRecord[], resourceName: string): CallToolResult {
   if (records.length === 0) {
     return {
       content: [
@@ -50,10 +47,7 @@ export function formatList(
  * @param record - The resource record returned by the API.
  * @param resourceName - Human-readable name of the resource type (e.g. "course").
  */
-export function formatShow(
-  record: EduframeRecord,
-  resourceName: string,
-): CallToolResult {
+export function formatShow(record: EduframeRecord, resourceName: string): CallToolResult {
   return {
     content: [
       {
@@ -70,10 +64,7 @@ export function formatShow(
  * @param record - The newly created resource record returned by the API.
  * @param resourceName - Human-readable name of the resource type (e.g. "course").
  */
-export function formatCreate(
-  record: EduframeRecord,
-  resourceName: string,
-): CallToolResult {
+export function formatCreate(record: EduframeRecord, resourceName: string): CallToolResult {
   return {
     content: [
       {
@@ -90,10 +81,7 @@ export function formatCreate(
  * @param record - The updated resource record returned by the API.
  * @param resourceName - Human-readable name of the resource type (e.g. "course").
  */
-export function formatUpdate(
-  record: EduframeRecord,
-  resourceName: string,
-): CallToolResult {
+export function formatUpdate(record: EduframeRecord, resourceName: string): CallToolResult {
   return {
     content: [
       {
@@ -110,10 +98,7 @@ export function formatUpdate(
  * @param record - The deleted resource record returned by the API.
  * @param resourceName - Human-readable name of the resource type (e.g. "course").
  */
-export function formatDelete(
-  record: EduframeRecord,
-  resourceName: string,
-): CallToolResult {
+export function formatDelete(record: EduframeRecord, resourceName: string): CallToolResult {
   return {
     content: [
       {
