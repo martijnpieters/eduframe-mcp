@@ -4,12 +4,11 @@ Eduframe MCP server — exposes [Eduframe](https://www.eduframe.nl/) resources a
 
 ## Configuration
 
-The server requires two environment variables:
+The server requires one environment variable:
 
 | Variable | Description |
 |---|---|
 | `EDUFRAME_API_TOKEN` | Your Eduframe API token (Bearer token) |
-| `EDUFRAME_EDUCATOR_SLUG` | Your Eduframe educator slug (tenant identifier) |
 
 ## Tools
 
