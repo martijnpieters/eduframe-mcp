@@ -6,10 +6,7 @@ Eduframe MCP server — exposes [Eduframe](https://www.eduframe.nl/) resources a
 
 Add the following configuration to your `.vscode/mcp.json` file to use this MCP server with GitHub Copilot in agent mode.
 
-### Using `npx` (from the GitHub package registry)
-
-> [!NOTE]
-> The package is published to the GitHub Package Registry. You need to configure npm to use the GitHub registry for the `@martijnpieters` scope. Add `@martijnpieters:registry=https://npm.pkg.github.com` to your `.npmrc` file, and authenticate with a [personal access token](https://github.com/settings/tokens) that has the `read:packages` permission.
+### Using `npx` (from GitHub)
 
 ```json
 {
@@ -17,7 +14,7 @@ Add the following configuration to your `.vscode/mcp.json` file to use this MCP 
     "eduframe": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@martijnpieters/eduframe-mcp"],
+      "args": ["-y", "github:martijnpieters/eduframe-mcp"],
       "env": {
         "EDUFRAME_API_TOKEN": "${input:eduframe_api_token}"
       }
