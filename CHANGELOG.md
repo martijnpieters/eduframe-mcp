@@ -1,5 +1,11 @@
 # @martijnpieters/eduframe-mcp
 
+## 1.0.1
+
+### Patch Changes
+
+- 9b6acd7: Add `bin` entry point and shebang to fix `npx` execution
+
 ## 1.0.0
 
 ### Major Changes
