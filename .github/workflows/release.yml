@@ -40,7 +40,7 @@ jobs:
         run: pnpm build
 
       - name: Verify executable
-        run: node dist/index.js < /dev/null
+        run: node dist/index.js < /dev/null 2>&1 | grep -q "Missing required environment variable: EDUFRAME_API_TOKEN"
 
       - name: Create release pull request or publish
         uses: changesets/action@v1
