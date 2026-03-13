@@ -1,5 +1,11 @@
 # @martijnpieters/eduframe-mcp
 
+## 1.0.2
+
+### Patch Changes
+
+- 99bab14: Add `prepare` script so the project builds automatically when installed via `npx github:martijnpieters/eduframe-mcp`
+
 ## 1.0.1
 
 ### Patch Changes
