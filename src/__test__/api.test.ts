@@ -247,6 +247,34 @@ describe("apiPut", () => {
   });
 });
 
+describe("apiPatch", () => {
+  let fetchSpy: MockInstance;
+
+  beforeEach(() => {
+    Object.assign(process.env, VALID_ENV);
+    fetchSpy = vi.spyOn(globalThis, "fetch");
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    delete process.env.EDUFRAME_API_TOKEN;
+    delete process.env.EDUFRAME_EDUCATOR_SLUG;
+  });
+
+  it("sends a PATCH request and returns the updated resource", async () => {
+    const updated = { id: 1, status: "won" };
+    fetchSpy.mockImplementation(makeFetch(200, updated));
+
+    const { apiPatch } = await import("../api.js");
+    const result = await apiPatch("/leads/1", { status: "won" });
+
+    expect(result).toEqual(updated);
+    const calledInit = (fetchSpy.mock.calls[0] as [string, RequestInit])[1];
+    expect(calledInit.method).toBe("PATCH");
+    expect(JSON.parse(calledInit.body as string)).toMatchObject({ status: "won" });
+  });
+});
+
 describe("apiDelete", () => {
   let fetchSpy: MockInstance;
 

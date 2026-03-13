@@ -178,6 +178,25 @@ export async function apiPut<T>(path: string, body: unknown): Promise<T> {
 }
 
 /**
+ * Perform a PATCH request to partially update a resource.
+ *
+ * @param path - API path, e.g. "/leads/1"
+ * @param body - Request body
+ */
+export async function apiPatch<T>(path: string, body: unknown): Promise<T> {
+  const { token, educatorSlug } = getConfig();
+  const url = buildUrl(path);
+
+  const response = await fetch(url.toString(), {
+    method: "PATCH",
+    headers: buildHeaders(token, educatorSlug),
+    body: JSON.stringify(body),
+  });
+
+  return handleResponse<T>(response);
+}
+
+/**
  * Perform a DELETE request to remove a resource.
  *
  * @param path - API path, e.g. "/leads/1"
