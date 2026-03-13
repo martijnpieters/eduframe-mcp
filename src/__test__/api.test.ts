@@ -1,12 +1,4 @@
-import {
-  describe,
-  it,
-  expect,
-  vi,
-  beforeEach,
-  afterEach,
-  type MockInstance,
-} from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach, type MockInstance } from "vitest";
 import { parseNextCursor, EduframeApiError } from "../api.js";
 
 // ---------------------------------------------------------------------------
@@ -19,14 +11,12 @@ describe("parseNextCursor", () => {
   });
 
   it("returns null when there is no rel=next link", () => {
-    const header =
-      '<https://api.eduframe.nl/api/v1/leads?cursor=abc>; rel="prev"';
+    const header = '<https://api.eduframe.nl/api/v1/leads?cursor=abc>; rel="prev"';
     expect(parseNextCursor(header)).toBeNull();
   });
 
   it("extracts the cursor from a rel=next link", () => {
-    const header =
-      '<https://api.eduframe.nl/api/v1/leads?cursor=eyJpZCI6NTB9&per_page=25>; rel="next"';
+    const header = '<https://api.eduframe.nl/api/v1/leads?cursor=eyJpZCI6NTB9&per_page=25>; rel="next"';
     expect(parseNextCursor(header)).toBe("eyJpZCI6NTB9");
   });
 
@@ -38,8 +28,7 @@ describe("parseNextCursor", () => {
   });
 
   it("returns null when the next URL contains no cursor param", () => {
-    const header =
-      '<https://api.eduframe.nl/api/v1/leads?per_page=25>; rel="next"';
+    const header = '<https://api.eduframe.nl/api/v1/leads?per_page=25>; rel="next"';
     expect(parseNextCursor(header)).toBeNull();
   });
 });
@@ -68,11 +57,7 @@ const VALID_ENV = {
   EDUFRAME_EDUCATOR_SLUG: "my-school",
 };
 
-function makeFetch(
-  status: number,
-  body: unknown,
-  headers?: Record<string, string>,
-): typeof globalThis.fetch {
+function makeFetch(status: number, body: unknown, headers?: Record<string, string>): typeof globalThis.fetch {
   return vi.fn().mockResolvedValue({
     ok: status >= 200 && status < 300,
     status,

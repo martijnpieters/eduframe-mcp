@@ -28,10 +28,7 @@ function getConfig(): { token: string; educatorSlug: string } {
   return { token, educatorSlug };
 }
 
-function buildHeaders(
-  token: string,
-  educatorSlug: string,
-): Record<string, string> {
+function buildHeaders(token: string, educatorSlug: string): Record<string, string> {
   return {
     Authorization: `Bearer ${token}`,
     educator_slug: educatorSlug,
@@ -107,10 +104,7 @@ export interface ListResult<T> {
  * @param path - API path, e.g. "/leads"
  * @param query - Optional query parameters
  */
-export async function apiList<T>(
-  path: string,
-  query?: Record<string, QueryValue>,
-): Promise<ListResult<T>> {
+export async function apiList<T>(path: string, query?: Record<string, QueryValue>): Promise<ListResult<T>> {
   const { token, educatorSlug } = getConfig();
   const url = buildUrl(path, query);
 
@@ -133,10 +127,7 @@ export async function apiList<T>(
  * @param path - API path, e.g. "/leads/1"
  * @param query - Optional query parameters
  */
-export async function apiGet<T>(
-  path: string,
-  query?: Record<string, QueryValue>,
-): Promise<T> {
+export async function apiGet<T>(path: string, query?: Record<string, QueryValue>): Promise<T> {
   const { token, educatorSlug } = getConfig();
   const url = buildUrl(path, query);
 
