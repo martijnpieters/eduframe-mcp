@@ -14,6 +14,7 @@
   ],
   "scripts": {
     "build": "rolldown -c rolldown.config.ts",
+    "prepare": "pnpm build",
     "test": "vitest run",
     "lint": "oxlint src",
     "fmt": "oxfmt src",
