@@ -10,6 +10,7 @@ import {
   formatDelete,
   type EduframeRecord,
 } from "../formatters.js";
+import { logResponse } from "../response-logger.js";
 
 function formatError(error: unknown): CallToolResult {
   return {
@@ -88,6 +89,8 @@ export function registerLeadTools(server: McpServer): void {
           email,
         });
 
+        void logResponse("list_leads", { cursor, per_page, email }, result);
+
         const toolResult = formatList(result.records, "leads");
 
         if (result.nextCursor) {
@@ -113,6 +116,7 @@ export function registerLeadTools(server: McpServer): void {
     async ({ id }) => {
       try {
         const lead = await apiGet<EduframeRecord>(`/leads/${id}`);
+        void logResponse("get_lead", { id }, lead);
         return formatShow(lead, "lead");
       } catch (error) {
         return formatError(error);
@@ -123,6 +127,7 @@ export function registerLeadTools(server: McpServer): void {
   server.tool("create_lead", "Create a lead", leadCreateFields, async (body) => {
     try {
       const lead = await apiPost<EduframeRecord>("/leads", body);
+      void logResponse("create_lead", body, lead);
       return formatCreate(lead, "lead");
     } catch (error) {
       return formatError(error);
@@ -139,6 +144,7 @@ export function registerLeadTools(server: McpServer): void {
     async ({ id, ...body }) => {
       try {
         const lead = await apiPatch<EduframeRecord>(`/leads/${id}`, body);
+        void logResponse("update_lead", { id, ...body }, lead);
         return formatUpdate(lead, "lead");
       } catch (error) {
         return formatError(error);
@@ -155,6 +161,7 @@ export function registerLeadTools(server: McpServer): void {
     async ({ id }) => {
       try {
         const lead = await apiDelete<EduframeRecord>(`/leads/${id}`);
+        void logResponse("delete_lead", { id }, lead);
         return formatDelete(lead, "lead");
       } catch (error) {
         return formatError(error);
