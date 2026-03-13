@@ -1,6 +1,6 @@
 {
   "name": "@martijnpieters/eduframe-mcp",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Eduframe MCP server",
   "type": "module",
   "license": "MIT",
