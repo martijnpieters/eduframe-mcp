@@ -17,7 +17,7 @@ describe("logResponse", () => {
   });
 
   it("calls fs.writeFile with a JSON string containing the tool name", async () => {
-    const { logResponse } = await import("../response-logger.js");
+    const { logResponse } = await import("../response-logger");
 
     await logResponse("list_leads", { per_page: 10 }, [{ id: 1 }]);
 
@@ -37,7 +37,7 @@ describe("logResponse", () => {
   });
 
   it("uses an empty object for request when requestParams is null", async () => {
-    const { logResponse } = await import("../response-logger.js");
+    const { logResponse } = await import("../response-logger");
 
     await logResponse("get_lead", null, { id: 42 });
 
@@ -53,13 +53,13 @@ describe("logResponse", () => {
       callback(new Error("disk full"));
     }) as typeof fs.writeFile);
 
-    const { logResponse } = await import("../response-logger.js");
+    const { logResponse } = await import("../response-logger");
 
     await expect(logResponse("get_lead", { id: 1 }, { id: 1 })).resolves.toBeUndefined();
   });
 
   it("writes valid JSON", async () => {
-    const { logResponse } = await import("../response-logger.js");
+    const { logResponse } = await import("../response-logger");
     const response = { id: 1, email: "test@example.com", nested: { a: 1 } };
 
     await logResponse("get_lead", { id: 1 }, response);

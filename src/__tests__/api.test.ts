@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach, type MockInstance } from "vitest";
-import { parseNextCursor, EduframeApiError, validateConfig } from "../api.js";
+import { parseNextCursor, EduframeApiError, validateConfig } from "../api";
 
 // ---------------------------------------------------------------------------
 // parseNextCursor
@@ -112,7 +112,7 @@ describe("apiList", () => {
     const records = [{ id: 1, email: "a@b.com" }];
     fetchSpy.mockImplementation(makeFetch(200, records));
 
-    const { apiList } = await import("../api.js");
+    const { apiList } = await import("../api");
     const result = await apiList("/leads");
 
     expect(result.records).toEqual(records);
@@ -127,7 +127,7 @@ describe("apiList", () => {
       }),
     );
 
-    const { apiList } = await import("../api.js");
+    const { apiList } = await import("../api");
     const result = await apiList("/leads");
 
     expect(result.nextCursor).toBe("abc123");
@@ -136,7 +136,7 @@ describe("apiList", () => {
   it("passes query parameters to the fetch URL", async () => {
     fetchSpy.mockImplementation(makeFetch(200, []));
 
-    const { apiList } = await import("../api.js");
+    const { apiList } = await import("../api");
     await apiList("/leads", { per_page: 10, search: "alice" });
 
     expect(fetchSpy).toHaveBeenCalledOnce();
@@ -148,7 +148,7 @@ describe("apiList", () => {
   it("sends an Authorization header", async () => {
     fetchSpy.mockImplementation(makeFetch(200, []));
 
-    const { apiList } = await import("../api.js");
+    const { apiList } = await import("../api");
     await apiList("/leads");
 
     const calledInit = (fetchSpy.mock.calls[0] as [string, RequestInit])[1];
@@ -159,14 +159,14 @@ describe("apiList", () => {
   it("throws EduframeApiError on non-2xx response", async () => {
     fetchSpy.mockImplementation(makeFetch(422, { error: "Unprocessable" }));
 
-    const { apiList, EduframeApiError: ApiError } = await import("../api.js");
+    const { apiList, EduframeApiError: ApiError } = await import("../api");
     await expect(apiList("/leads")).rejects.toBeInstanceOf(ApiError);
   });
 
   it("throws when EDUFRAME_API_TOKEN is not set", async () => {
     delete process.env.EDUFRAME_API_TOKEN;
 
-    const { apiList } = await import("../api.js");
+    const { apiList } = await import("../api");
     await expect(apiList("/leads")).rejects.toThrow("EDUFRAME_API_TOKEN");
   });
 });
@@ -188,7 +188,7 @@ describe("apiGet", () => {
     const lead = { id: 42, email: "lead@example.com" };
     fetchSpy.mockImplementation(makeFetch(200, lead));
 
-    const { apiGet } = await import("../api.js");
+    const { apiGet } = await import("../api");
     const result = await apiGet("/leads/42");
 
     expect(result).toEqual(lead);
@@ -197,7 +197,7 @@ describe("apiGet", () => {
   it("throws EduframeApiError on 404", async () => {
     fetchSpy.mockImplementation(makeFetch(404, { error: "not found" }));
 
-    const { apiGet, EduframeApiError: ApiError } = await import("../api.js");
+    const { apiGet, EduframeApiError: ApiError } = await import("../api");
     await expect(apiGet("/leads/999")).rejects.toBeInstanceOf(ApiError);
   });
 });
@@ -219,7 +219,7 @@ describe("apiPost", () => {
     const created = { id: 1, email: "new@example.com" };
     fetchSpy.mockImplementation(makeFetch(201, created));
 
-    const { apiPost } = await import("../api.js");
+    const { apiPost } = await import("../api");
     const result = await apiPost("/leads", {
       first_name: "Alice",
       email: "new@example.com",
@@ -251,7 +251,7 @@ describe("apiPut", () => {
     const updated = { id: 1, email: "updated@example.com" };
     fetchSpy.mockImplementation(makeFetch(200, updated));
 
-    const { apiPut } = await import("../api.js");
+    const { apiPut } = await import("../api");
     const result = await apiPut("/leads/1", { email: "updated@example.com" });
 
     expect(result).toEqual(updated);
@@ -277,7 +277,7 @@ describe("apiPatch", () => {
     const updated = { id: 1, status: "won" };
     fetchSpy.mockImplementation(makeFetch(200, updated));
 
-    const { apiPatch } = await import("../api.js");
+    const { apiPatch } = await import("../api");
     const result = await apiPatch("/leads/1", { status: "won" });
 
     expect(result).toEqual(updated);
@@ -304,7 +304,7 @@ describe("apiDelete", () => {
     const deleted = { id: 1 };
     fetchSpy.mockImplementation(makeFetch(200, deleted));
 
-    const { apiDelete } = await import("../api.js");
+    const { apiDelete } = await import("../api");
     const result = await apiDelete("/leads/1");
 
     expect(result).toEqual(deleted);
