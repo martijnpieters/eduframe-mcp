@@ -6,12 +6,10 @@ vi.mock("fs");
 describe("logResponse", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(fs.writeFile).mockImplementation(
-      ((...args: unknown[]) => {
-        const callback = args[args.length - 1] as (err: Error | null) => void;
-        callback(null);
-      }) as typeof fs.writeFile,
-    );
+    vi.mocked(fs.writeFile).mockImplementation(((...args: unknown[]) => {
+      const callback = args[args.length - 1] as (err: Error | null) => void;
+      callback(null);
+    }) as typeof fs.writeFile);
   });
 
   afterEach(() => {
@@ -50,12 +48,10 @@ describe("logResponse", () => {
   });
 
   it("does not throw when fs.writeFile returns an error", async () => {
-    vi.mocked(fs.writeFile).mockImplementation(
-      ((...args: unknown[]) => {
-        const callback = args[args.length - 1] as (err: Error | null) => void;
-        callback(new Error("disk full"));
-      }) as typeof fs.writeFile,
-    );
+    vi.mocked(fs.writeFile).mockImplementation(((...args: unknown[]) => {
+      const callback = args[args.length - 1] as (err: Error | null) => void;
+      callback(new Error("disk full"));
+    }) as typeof fs.writeFile);
 
     const { logResponse } = await import("../response-logger.js");
 
