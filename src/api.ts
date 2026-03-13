@@ -14,6 +14,22 @@ export class EduframeApiError extends Error {
   }
 }
 
+/**
+ * Validate that all required environment variables are set.
+ * Throws a readable error listing any missing variables.
+ */
+export function validateConfig(): void {
+  const missing: string[] = [];
+
+  if (!process.env.EDUFRAME_API_TOKEN) {
+    missing.push("EDUFRAME_API_TOKEN");
+  }
+
+  if (missing.length > 0) {
+    throw new Error(`Missing required environment variable${missing.length > 1 ? "s" : ""}: ${missing.join(", ")}`);
+  }
+}
+
 function getConfig(): { token: string } {
   const token = process.env.EDUFRAME_API_TOKEN;
 

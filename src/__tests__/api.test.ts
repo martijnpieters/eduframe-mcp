@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach, type MockInstance } from "vitest";
-import { parseNextCursor, EduframeApiError } from "../api.js";
+import { parseNextCursor, EduframeApiError, validateConfig } from "../api.js";
 
 // ---------------------------------------------------------------------------
 // parseNextCursor
@@ -45,6 +45,32 @@ describe("EduframeApiError", () => {
     expect(err.statusText).toBe("Not Found");
     expect(err.message).toBe("HTTP 404 Not Found: resource not found");
     expect(err).toBeInstanceOf(Error);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// validateConfig
+// ---------------------------------------------------------------------------
+
+describe("validateConfig", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    delete process.env.EDUFRAME_API_TOKEN;
+  });
+
+  it("does not throw when EDUFRAME_API_TOKEN is set", () => {
+    process.env.EDUFRAME_API_TOKEN = "test-token";
+    expect(() => validateConfig()).not.toThrow();
+  });
+
+  it("throws a readable error when EDUFRAME_API_TOKEN is missing", () => {
+    delete process.env.EDUFRAME_API_TOKEN;
+    expect(() => validateConfig()).toThrow("EDUFRAME_API_TOKEN");
+  });
+
+  it("error message lists the missing variable name", () => {
+    delete process.env.EDUFRAME_API_TOKEN;
+    expect(() => validateConfig()).toThrow("Missing required environment variable");
   });
 });
 
