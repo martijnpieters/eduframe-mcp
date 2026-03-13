@@ -2,3 +2,4 @@ node_modules/
 dist/
 .changeset/*.md
 !.changeset/README.md
+package-lock.json
