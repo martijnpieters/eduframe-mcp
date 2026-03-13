@@ -2,6 +2,68 @@
 
 Eduframe MCP server — exposes [Eduframe](https://www.eduframe.nl/) resources as MCP tools.
 
+## Usage in VSCode
+
+Add the following configuration to your `.vscode/mcp.json` file to use this MCP server with GitHub Copilot in agent mode.
+
+### Using `npx` (from GitHub)
+
+```json
+{
+  "servers": {
+    "eduframe": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "github:martijnpieters/eduframe-mcp"],
+      "env": {
+        "EDUFRAME_API_TOKEN": "${input:eduframe_api_token}"
+      }
+    }
+  },
+  "inputs": [
+    {
+      "id": "eduframe_api_token",
+      "type": "promptString",
+      "description": "Eduframe API token",
+      "password": true
+    }
+  ]
+}
+```
+
+### Development (from this repository)
+
+First, build the project:
+
+```sh
+pnpm install && pnpm build
+```
+
+Then add the following to `.vscode/mcp.json` in this repository:
+
+```json
+{
+  "servers": {
+    "eduframe": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${workspaceFolder}/dist/index.js"],
+      "env": {
+        "EDUFRAME_API_TOKEN": "${input:eduframe_api_token}"
+      }
+    }
+  },
+  "inputs": [
+    {
+      "id": "eduframe_api_token",
+      "type": "promptString",
+      "description": "Eduframe API token",
+      "password": true
+    }
+  ]
+}
+```
+
 ## Configuration
 
 The server requires one environment variable:
