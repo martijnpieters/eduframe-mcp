@@ -13,6 +13,7 @@
     "dist"
   ],
   "scripts": {
+    "prepare": "tsc",
     "build": "tsc",
     "test": "vitest run",
     "lint": "oxlint src",

@@ -39,6 +39,9 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Verify executable
+        run: node dist/index.js < /dev/null
+
       - name: Create release pull request or publish
         uses: changesets/action@v1
         with:
