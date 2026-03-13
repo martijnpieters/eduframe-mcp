@@ -1,12 +1,5 @@
 import { describe, it, expect } from "vitest";
-import {
-  formatList,
-  formatShow,
-  formatCreate,
-  formatUpdate,
-  formatDelete,
-  type EduframeRecord,
-} from "../formatters";
+import { formatList, formatShow, formatCreate, formatUpdate, formatDelete, type EduframeRecord } from "../formatters";
 
 const sampleCourse: EduframeRecord = {
   id: 1,
