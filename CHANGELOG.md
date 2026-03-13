@@ -1,5 +1,11 @@
 # @martijnpieters/eduframe-mcp
 
+## 1.0.3
+
+### Patch Changes
+
+- 60053ce: Validate required environment variables on server startup and throw a readable error listing any missing variables.
+
 ## 1.0.2
 
 ### Patch Changes
