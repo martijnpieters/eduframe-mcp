@@ -1,5 +1,11 @@
 # @martijnpieters/eduframe-mcp
 
+## 1.0.4
+
+### Patch Changes
+
+- 1099d29: Add response logger for more details
+
 ## 1.0.3
 
 ### Patch Changes
