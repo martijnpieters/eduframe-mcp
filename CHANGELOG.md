@@ -1,5 +1,11 @@
 # @martijnpieters/eduframe-mcp
 
+## 1.0.5
+
+### Patch Changes
+
+- 1929062: Switch build tooling from `tsc` to `rolldown` and drop `.js` extensions on local TypeScript imports.
+
 ## 1.0.4
 
 ### Patch Changes
