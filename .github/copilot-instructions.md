@@ -1,10 +1,16 @@
 # Copilot Instructions
 
+This repository implements an [MCP](https://modelcontextprotocol.io/) (Model Context Protocol) server for the [Eduframe](https://www.eduframe.nl/) API, exposing Eduframe resources as MCP tools.
+
 ## Environment Setup
 
 This project uses [asdf](https://asdf-vm.com/) for managing runtime versions. The required versions are defined in `.tool-versions`. Run `asdf install` after cloning to install them.
 
 Use [pnpm](https://pnpm.io/) as the package manager. Install dependencies with `pnpm install`.
+
+## Project Structure
+
+Each Eduframe resource is implemented as its own file under `src/tools/[resource].ts`. When adding a new tool, create a new file in that directory following the existing conventions.
 
 ## Development Guidelines
 
