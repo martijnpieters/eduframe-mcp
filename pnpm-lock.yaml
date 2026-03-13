@@ -27,6 +27,9 @@ importers:
       oxlint:
         specifier: ^1.55.0
         version: 1.55.0
+      rolldown:
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9
       typescript:
         specifier: ^5.9.3
         version: 5.9.3

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { validateConfig } from "./api.js";
-import { registerLeadTools } from "./tools/leads.js";
+import { validateConfig } from "./api";
+import { registerLeadTools } from "./tools/leads";
 
 const server = new McpServer({
   name: "eduframe-mcp",

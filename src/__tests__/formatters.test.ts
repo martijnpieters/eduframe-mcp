@@ -6,7 +6,7 @@ import {
   formatUpdate,
   formatDelete,
   type EduframeRecord,
-} from "../formatters.js";
+} from "../formatters";
 
 const sampleCourse: EduframeRecord = {
   id: 1,
