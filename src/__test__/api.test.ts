@@ -54,7 +54,6 @@ describe("EduframeApiError", () => {
 
 const VALID_ENV = {
   EDUFRAME_API_TOKEN: "test-token",
-  EDUFRAME_EDUCATOR_SLUG: "my-school",
 };
 
 function makeFetch(status: number, body: unknown, headers?: Record<string, string>): typeof globalThis.fetch {
@@ -81,7 +80,6 @@ describe("apiList", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     delete process.env.EDUFRAME_API_TOKEN;
-    delete process.env.EDUFRAME_EDUCATOR_SLUG;
   });
 
   it("returns records and null nextCursor when no Link header", async () => {
@@ -121,7 +119,7 @@ describe("apiList", () => {
     expect(calledUrl).toContain("search=alice");
   });
 
-  it("sends Authorization and educator_slug headers", async () => {
+  it("sends an Authorization header", async () => {
     fetchSpy.mockImplementation(makeFetch(200, []));
 
     const { apiList } = await import("../api.js");
@@ -130,7 +128,6 @@ describe("apiList", () => {
     const calledInit = (fetchSpy.mock.calls[0] as [string, RequestInit])[1];
     const headers = calledInit.headers as Record<string, string>;
     expect(headers["Authorization"]).toBe("Bearer test-token");
-    expect(headers["educator_slug"]).toBe("my-school");
   });
 
   it("throws EduframeApiError on non-2xx response", async () => {
@@ -146,13 +143,6 @@ describe("apiList", () => {
     const { apiList } = await import("../api.js");
     await expect(apiList("/leads")).rejects.toThrow("EDUFRAME_API_TOKEN");
   });
-
-  it("throws when EDUFRAME_EDUCATOR_SLUG is not set", async () => {
-    delete process.env.EDUFRAME_EDUCATOR_SLUG;
-
-    const { apiList } = await import("../api.js");
-    await expect(apiList("/leads")).rejects.toThrow("EDUFRAME_EDUCATOR_SLUG");
-  });
 });
 
 describe("apiGet", () => {
@@ -166,7 +156,6 @@ describe("apiGet", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     delete process.env.EDUFRAME_API_TOKEN;
-    delete process.env.EDUFRAME_EDUCATOR_SLUG;
   });
 
   it("returns the parsed JSON body", async () => {
@@ -198,7 +187,6 @@ describe("apiPost", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     delete process.env.EDUFRAME_API_TOKEN;
-    delete process.env.EDUFRAME_EDUCATOR_SLUG;
   });
 
   it("sends a POST request with the correct body and returns the response", async () => {
@@ -231,7 +219,6 @@ describe("apiPut", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     delete process.env.EDUFRAME_API_TOKEN;
-    delete process.env.EDUFRAME_EDUCATOR_SLUG;
   });
 
   it("sends a PUT request and returns the updated resource", async () => {
@@ -247,6 +234,33 @@ describe("apiPut", () => {
   });
 });
 
+describe("apiPatch", () => {
+  let fetchSpy: MockInstance;
+
+  beforeEach(() => {
+    Object.assign(process.env, VALID_ENV);
+    fetchSpy = vi.spyOn(globalThis, "fetch");
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    delete process.env.EDUFRAME_API_TOKEN;
+  });
+
+  it("sends a PATCH request and returns the updated resource", async () => {
+    const updated = { id: 1, status: "won" };
+    fetchSpy.mockImplementation(makeFetch(200, updated));
+
+    const { apiPatch } = await import("../api.js");
+    const result = await apiPatch("/leads/1", { status: "won" });
+
+    expect(result).toEqual(updated);
+    const calledInit = (fetchSpy.mock.calls[0] as [string, RequestInit])[1];
+    expect(calledInit.method).toBe("PATCH");
+    expect(JSON.parse(calledInit.body as string)).toMatchObject({ status: "won" });
+  });
+});
+
 describe("apiDelete", () => {
   let fetchSpy: MockInstance;
 
@@ -258,7 +272,6 @@ describe("apiDelete", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     delete process.env.EDUFRAME_API_TOKEN;
-    delete process.env.EDUFRAME_EDUCATOR_SLUG;
   });
 
   it("sends a DELETE request and returns the deleted resource", async () => {

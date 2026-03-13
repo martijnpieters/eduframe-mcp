@@ -14,24 +14,19 @@ export class EduframeApiError extends Error {
   }
 }
 
-function getConfig(): { token: string; educatorSlug: string } {
+function getConfig(): { token: string } {
   const token = process.env.EDUFRAME_API_TOKEN;
-  const educatorSlug = process.env.EDUFRAME_EDUCATOR_SLUG;
 
   if (!token) {
     throw new Error("EDUFRAME_API_TOKEN environment variable is not set");
   }
-  if (!educatorSlug) {
-    throw new Error("EDUFRAME_EDUCATOR_SLUG environment variable is not set");
-  }
 
-  return { token, educatorSlug };
+  return { token };
 }
 
-function buildHeaders(token: string, educatorSlug: string): Record<string, string> {
+function buildHeaders(token: string): Record<string, string> {
   return {
     Authorization: `Bearer ${token}`,
-    educator_slug: educatorSlug,
     "Content-Type": "application/json",
     Accept: "application/json",
   };
@@ -105,12 +100,12 @@ export interface ListResult<T> {
  * @param query - Optional query parameters
  */
 export async function apiList<T>(path: string, query?: Record<string, QueryValue>): Promise<ListResult<T>> {
-  const { token, educatorSlug } = getConfig();
+  const { token } = getConfig();
   const url = buildUrl(path, query);
 
   const response = await fetch(url.toString(), {
     method: "GET",
-    headers: buildHeaders(token, educatorSlug),
+    headers: buildHeaders(token),
   });
 
   await checkResponse(response);
@@ -128,12 +123,12 @@ export async function apiList<T>(path: string, query?: Record<string, QueryValue
  * @param query - Optional query parameters
  */
 export async function apiGet<T>(path: string, query?: Record<string, QueryValue>): Promise<T> {
-  const { token, educatorSlug } = getConfig();
+  const { token } = getConfig();
   const url = buildUrl(path, query);
 
   const response = await fetch(url.toString(), {
     method: "GET",
-    headers: buildHeaders(token, educatorSlug),
+    headers: buildHeaders(token),
   });
 
   return handleResponse<T>(response);
@@ -146,12 +141,12 @@ export async function apiGet<T>(path: string, query?: Record<string, QueryValue>
  * @param body - Request body
  */
 export async function apiPost<T>(path: string, body: unknown): Promise<T> {
-  const { token, educatorSlug } = getConfig();
+  const { token } = getConfig();
   const url = buildUrl(path);
 
   const response = await fetch(url.toString(), {
     method: "POST",
-    headers: buildHeaders(token, educatorSlug),
+    headers: buildHeaders(token),
     body: JSON.stringify(body),
   });
 
@@ -165,12 +160,31 @@ export async function apiPost<T>(path: string, body: unknown): Promise<T> {
  * @param body - Request body
  */
 export async function apiPut<T>(path: string, body: unknown): Promise<T> {
-  const { token, educatorSlug } = getConfig();
+  const { token } = getConfig();
   const url = buildUrl(path);
 
   const response = await fetch(url.toString(), {
     method: "PUT",
-    headers: buildHeaders(token, educatorSlug),
+    headers: buildHeaders(token),
+    body: JSON.stringify(body),
+  });
+
+  return handleResponse<T>(response);
+}
+
+/**
+ * Perform a PATCH request to partially update a resource.
+ *
+ * @param path - API path, e.g. "/leads/1"
+ * @param body - Request body
+ */
+export async function apiPatch<T>(path: string, body: unknown): Promise<T> {
+  const { token } = getConfig();
+  const url = buildUrl(path);
+
+  const response = await fetch(url.toString(), {
+    method: "PATCH",
+    headers: buildHeaders(token),
     body: JSON.stringify(body),
   });
 
@@ -183,12 +197,12 @@ export async function apiPut<T>(path: string, body: unknown): Promise<T> {
  * @param path - API path, e.g. "/leads/1"
  */
 export async function apiDelete<T>(path: string): Promise<T> {
-  const { token, educatorSlug } = getConfig();
+  const { token } = getConfig();
   const url = buildUrl(path);
 
   const response = await fetch(url.toString(), {
     method: "DELETE",
-    headers: buildHeaders(token, educatorSlug),
+    headers: buildHeaders(token),
   });
 
   return handleResponse<T>(response);

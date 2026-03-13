@@ -1,6 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { registerLeadTools } from "./leads.js";
+import { registerLeadTools } from "./tools/leads.js";
 
 const server = new McpServer({
   name: "eduframe-mcp",
