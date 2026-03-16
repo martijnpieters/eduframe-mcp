@@ -1,5 +1,11 @@
 # @martijnpieters/eduframe-mcp
 
+## 1.0.7
+
+### Patch Changes
+
+- ee6b115: Add tool annotations
+
 ## 1.0.6
 
 ### Patch Changes
