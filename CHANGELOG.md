@@ -1,5 +1,15 @@
 # @martijnpieters/eduframe-mcp
 
+## 2.0.0
+
+### Major Changes
+
+- c6c312f: Implemented tools for all Eduframe API endpoints
+
+### Patch Changes
+
+- ee6b115: Add tool annotations
+
 ## 1.0.6
 
 ### Patch Changes
