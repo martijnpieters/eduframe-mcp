@@ -17,6 +17,7 @@
     "prepare": "pnpm build",
     "test": "vitest run",
     "lint": "oxlint src",
+    "generate": "tsx script/generate-tools.ts",
     "fmt": "oxfmt src",
     "fmt:check": "oxfmt --check src",
     "release": "changeset publish"
@@ -31,6 +32,8 @@
     "oxfmt": "^0.40.0",
     "oxlint": "^1.55.0",
     "rolldown": "1.0.0-rc.9",
+    "ts-morph": "^27.0.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vitest": "^4.1.0"
   },
