@@ -10,8 +10,25 @@ const RESPONSE_LOG_HINT = "\n\n*Full JSON response saved to `.mcp-servers/edufra
 /**
  * Format a resource record as a human-readable string.
  */
-function formatRecord(record: EduframeRecord): string {
-  return JSON.stringify(record, null, 2);
+function formatJSON(value: unknown): string {
+  return JSON.stringify(value, null, 2);
+}
+
+/**
+ * Format a caught error as a tool error result.
+ *
+ * @param error - The caught error value. Can be an `Error` instance or any other thrown value.
+ */
+export function formatError(error: unknown): CallToolResult {
+  return {
+    content: [
+      {
+        type: "text",
+        text: `Error: ${error instanceof Error ? error.message : String(error)}`,
+      },
+    ],
+    isError: true,
+  };
 }
 
 /**
@@ -32,12 +49,11 @@ export function formatList(records: EduframeRecord[], resourceName: string): Cal
     };
   }
 
-  const formatted = records.map(formatRecord).join("\n\n");
   return {
     content: [
       {
         type: "text",
-        text: `Found ${records.length} ${resourceName}:\n\n${formatted}${RESPONSE_LOG_HINT}`,
+        text: `Found ${records.length} ${resourceName}:\n\n${formatJSON(records)}${RESPONSE_LOG_HINT}`,
       },
     ],
   };
@@ -54,7 +70,7 @@ export function formatShow(record: EduframeRecord, resourceName: string): CallTo
     content: [
       {
         type: "text",
-        text: `${resourceName}:\n\n${formatRecord(record)}${RESPONSE_LOG_HINT}`,
+        text: `${resourceName}:\n\n${formatJSON(record)}${RESPONSE_LOG_HINT}`,
       },
     ],
   };
@@ -71,7 +87,7 @@ export function formatCreate(record: EduframeRecord, resourceName: string): Call
     content: [
       {
         type: "text",
-        text: `Successfully created ${resourceName}:\n\n${formatRecord(record)}${RESPONSE_LOG_HINT}`,
+        text: `Successfully created ${resourceName}:\n\n${formatJSON(record)}${RESPONSE_LOG_HINT}`,
       },
     ],
   };
@@ -88,7 +104,7 @@ export function formatUpdate(record: EduframeRecord, resourceName: string): Call
     content: [
       {
         type: "text",
-        text: `Successfully updated ${resourceName}:\n\n${formatRecord(record)}${RESPONSE_LOG_HINT}`,
+        text: `Successfully updated ${resourceName}:\n\n${formatJSON(record)}${RESPONSE_LOG_HINT}`,
       },
     ],
   };
@@ -105,7 +121,7 @@ export function formatDelete(record: EduframeRecord, resourceName: string): Call
     content: [
       {
         type: "text",
-        text: `Successfully deleted ${resourceName}:\n\n${formatRecord(record)}${RESPONSE_LOG_HINT}`,
+        text: `Successfully deleted ${resourceName}:\n\n${formatJSON(record)}${RESPONSE_LOG_HINT}`,
       },
     ],
   };

@@ -31,7 +31,7 @@ export function validateConfig(): void {
 }
 
 function getConfig(): { token: string } {
-  const token = process.env.EDUFRAME_API_TOKEN;
+  const token = process.env.EDUFRAME_API_TOKEN?.trim();
 
   if (!token) {
     throw new Error("EDUFRAME_API_TOKEN environment variable is not set");

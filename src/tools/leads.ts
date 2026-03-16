@@ -1,21 +1,16 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { apiList, apiGet, apiPost, apiPatch, apiDelete } from "../api";
-import { formatList, formatShow, formatCreate, formatUpdate, formatDelete, type EduframeRecord } from "../formatters";
+import {
+  formatError,
+  formatList,
+  formatShow,
+  formatCreate,
+  formatUpdate,
+  formatDelete,
+  type EduframeRecord,
+} from "../formatters";
 import { logResponse } from "../response-logger";
-
-function formatError(error: unknown): CallToolResult {
-  return {
-    content: [
-      {
-        type: "text",
-        text: `Error: ${error instanceof Error ? error.message : String(error)}`,
-      },
-    ],
-    isError: true,
-  };
-}
 
 const leadStatusEnum = z.enum(["prospect", "waiting_list", "won", "lost", "archive"]);
 
@@ -66,13 +61,16 @@ const leadCreateFields = {
  * Register all lead-related MCP tools on the given server.
  */
 export function registerLeadTools(server: McpServer): void {
-  server.tool(
+  server.registerTool(
     "list_leads",
-    "Get all lead records",
     {
-      cursor: z.string().optional().describe("Cursor for fetching the next page of results"),
-      per_page: z.number().int().positive().optional().describe("Number of results per page (default: 25)"),
-      email: z.string().optional().describe("Filter leads by exact email match"),
+      description: "Get all lead records",
+      annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true },
+      inputSchema: {
+        cursor: z.string().optional().describe("Cursor for fetching the next page of results"),
+        per_page: z.number().int().positive().optional().describe("Number of results per page (default: 25)"),
+        email: z.string().optional().describe("Filter leads by exact email match"),
+      },
     },
     async ({ cursor, per_page, email }) => {
       try {
@@ -100,11 +98,14 @@ export function registerLeadTools(server: McpServer): void {
     },
   );
 
-  server.tool(
+  server.registerTool(
     "get_lead",
-    "Get one lead record",
     {
-      id: z.number().int().positive().describe("ID of the lead to retrieve"),
+      description: "Get one lead record",
+      annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true },
+      inputSchema: {
+        id: z.number().int().positive().describe("ID of the lead to retrieve"),
+      },
     },
     async ({ id }) => {
       try {
@@ -117,22 +118,33 @@ export function registerLeadTools(server: McpServer): void {
     },
   );
 
-  server.tool("create_lead", "Create a lead", leadCreateFields, async (body) => {
-    try {
-      const lead = await apiPost<EduframeRecord>("/leads", body);
-      void logResponse("create_lead", body, lead);
-      return formatCreate(lead, "lead");
-    } catch (error) {
-      return formatError(error);
-    }
-  });
-
-  server.tool(
-    "update_lead",
-    "Update a lead",
+  server.registerTool(
+    "create_lead",
     {
-      id: z.number().int().positive().describe("ID of the lead to update"),
-      status: leadStatusEnum.describe("The status of the lead"),
+      description: "Create a lead",
+      annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false },
+      inputSchema: leadCreateFields,
+    },
+    async (body) => {
+      try {
+        const lead = await apiPost<EduframeRecord>("/leads", body);
+        void logResponse("create_lead", body, lead);
+        return formatCreate(lead, "lead");
+      } catch (error) {
+        return formatError(error);
+      }
+    },
+  );
+
+  server.registerTool(
+    "update_lead",
+    {
+      description: "Update a lead",
+      annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: true },
+      inputSchema: {
+        id: z.number().int().positive().describe("ID of the lead to update"),
+        status: leadStatusEnum.describe("The status of the lead"),
+      },
     },
     async ({ id, ...body }) => {
       try {
@@ -145,11 +157,14 @@ export function registerLeadTools(server: McpServer): void {
     },
   );
 
-  server.tool(
+  server.registerTool(
     "delete_lead",
-    "Delete a lead",
     {
-      id: z.number().int().positive().describe("ID of the lead to delete"),
+      description: "Delete a lead",
+      annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: true },
+      inputSchema: {
+        id: z.number().int().positive().describe("ID of the lead to delete"),
+      },
     },
     async ({ id }) => {
       try {
