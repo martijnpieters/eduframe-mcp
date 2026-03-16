@@ -1,4 +1,8 @@
-const BASE_URL = "https://api.eduframe.nl/api/v1";
+const DEFAULT_API_ENDPOINT = "https://api.eduframe.nl/api/v1";
+
+function getBaseUrl(): string {
+  return process.env.EDUFRAME_API_ENDPOINT?.replace(/\/+$/, "") ?? DEFAULT_API_ENDPOINT;
+}
 
 /**
  * Error thrown when the Eduframe API returns a non-2xx HTTP response.
@@ -51,7 +55,7 @@ function buildHeaders(token: string): Record<string, string> {
 type QueryValue = string | string[] | number | boolean | undefined;
 
 function buildUrl(path: string, query?: Record<string, QueryValue>): URL {
-  const url = new URL(`${BASE_URL}${path}`);
+  const url = new URL(`${getBaseUrl()}${path}`);
 
   if (query) {
     for (const [key, value] of Object.entries(query)) {
