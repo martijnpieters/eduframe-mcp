@@ -1,5 +1,11 @@
 # @martijnpieters/eduframe-mcp
 
+## 2.0.1
+
+### Patch Changes
+
+- 5cf9e70: Lower the zod version to make the MCP server boot again
+
 ## 2.0.0
 
 ### Major Changes
