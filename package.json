@@ -13,7 +13,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "rolldown -c rolldown.config.ts",
+    "build": "rolldown -c rolldown.config.ts && chmod 755 dist/index.js",
     "prepare": "pnpm build",
     "test": "vitest run",
     "lint": "oxlint src",
@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.27.1",
-    "zod": "^4.3.6"
+    "zod": "^3"
   },
   "devDependencies": {
     "@changesets/cli": "^2.30.0",

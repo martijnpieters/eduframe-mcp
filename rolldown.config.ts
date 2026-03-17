@@ -7,5 +7,6 @@ export default defineConfig({
   output: {
     file: "dist/index.js",
     format: "esm",
+    banner: "#!/usr/bin/env node",
   },
 });
